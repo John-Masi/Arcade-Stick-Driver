@@ -1,10 +1,8 @@
+#include <iostream>
 
 extern "C" {
 	#include "driver.h"
 }
-
-
-#include <iostream>
 
 
 int main() {
