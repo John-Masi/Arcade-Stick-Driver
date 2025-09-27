@@ -11,8 +11,8 @@ extern "C" {
 
 int main() {
 
-	Button buttons[8] = {{false,304},{false,305},{false,306},{false,307},
-						{false,308},{false,309},{false,310},{false,311},};
+	Button buttons[8] = {{false,304},{false,307},{false,309},{false,308},
+						{false,305},{false,306},{false,311},{false,310},};
 
 	std::thread t(run,buttons);
 
@@ -20,24 +20,38 @@ int main() {
 
 	sf::Texture texture;
 	//texture.loadFromFile("1.png");
-	if(!texture.loadFromFile("one.png")){
+	if(!texture.loadFromFile("button.png")){
 		std::cerr << "Failed to load" << '\n';
 		return -1;
 	}
 
-	sf::Sprite sprite(texture);
-	sprite.setPosition(0, 0); 
-	sprite.setScale(0.5f,0.5f);
+
+	sf::Sprite sfArray[8] = {sf::Sprite(texture),sf::Sprite(texture),sf::Sprite(texture),sf::Sprite(texture),
+								sf::Sprite(texture),sf::Sprite(texture),sf::Sprite(texture),sf::Sprite(texture)};
+	
+	for(int i = 0; i < 8; i++){
+		if(i >= 4) {
+			sfArray[i].setPosition(i*100,100);
+		}
+		else {
+			sfArray[i].setPosition(i*100,0);
+		}
+
+		sfArray[i].setScale(0.5f,0.5f);
+	}
 
     sf::Event event;
     while (window.isOpen()) {
 
-    	if(buttons[0].is_pressed) {
-    		sprite.setColor(sf::Color(255,255,255,128));
+    	for(int i = 0; i < 8; i++) {
+    		if(buttons[i].is_pressed) {
+    			sfArray[i].setColor(sf::Color(255,255,255,128));
+    		}
+    		else {
+    			sfArray[i].setColor(sf::Color(255,255,255,255));
+    		}
     	}
-    	else {
-    		sprite.setColor(sf::Color(255,255,255,255));
-    	}
+    
         while (window.pollEvent(event)) { 
             if (event.type == sf::Event::Closed) {
                 window.close();
@@ -45,7 +59,9 @@ int main() {
         }
 
         window.clear(sf::Color::Black);
-        window.draw(sprite);
+        for(int i = 0; i < 8; i++) {
+        	window.draw(sfArray[i]);
+        }
         window.display();
     }
 
