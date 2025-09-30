@@ -16,7 +16,6 @@
 
 // /dev/input/event12&13 (interfaces for the stick)
 
-
 // Dectect for stick after implementation
 
 typedef struct {
@@ -26,7 +25,7 @@ typedef struct {
 
 typedef struct {
 	int code; 
-	int is_pushed; 
+	bool is_pushed; 
 } JoyStick;
 
 int FindDevice() {
@@ -43,10 +42,9 @@ int FindDevice() {
 
 			ioctl(fd,EVIOCGNAME(len),buffer);
 
-
 			if(strcmp(buffer,"Shenzhen Qanba Technology Development Co.,Ltd Qanba Arcade Joystick 3018") == 0) {
 				close(fd);
-				printf("Name: %s\n",buffer);
+				//printf("Name: %s\n",buffer);
 				return i;
 
 			}
@@ -59,7 +57,7 @@ int FindDevice() {
 
 }
 
-void run(Button* buttons) {
+void run(Button* buttons,JoyStick joystick) {
 	int num = FindDevice();
 
 	struct input_event event; 
@@ -81,13 +79,15 @@ void run(Button* buttons) {
 				for(int i = 0; i < 8; i++){
 					if(event.code == buttons[i].code){
 						buttons[i].is_pressed = (event.value == 1);
-						printf("Button %u is: %d\n",buttons[i].code,buttons[i].is_pressed);
 					}
 				}
 			
 			}
 			else if(event.type == EV_ABS){
-				printf("%d %u\n",event.value,event.code);
+				printf("%d\n",event.value);
+
+				joystick.is_pushed = event.code;
+				joystick.code = event.value;
 			}
 
 		}

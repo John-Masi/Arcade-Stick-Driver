@@ -18,7 +18,9 @@ int main() {
 	Button buttons[8] = {{false,304},{false,307},{false,309},{false,308},
 						{false,305},{false,306},{false,311},{false,310},};
 
-	std::thread t(run,buttons);
+	JoyStick stick{};
+
+	std::thread t(run,buttons,stick);
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Window");
 
@@ -40,6 +42,7 @@ int main() {
 		{310,sf::Sprite(texture)}
 
 	};
+
 	
 	for(auto& [key, sprite]: sprites){
 		sprite.setPosition(100,0);
@@ -59,17 +62,15 @@ int main() {
     while (window.isOpen()) {
 
     	for(int i = 0; i < 8; i++) {
-  
-    			if(buttons[i].is_pressed){
+    		if(buttons[i].is_pressed){
     			sprites[buttons[i].code].setColor(sf::Color(55,155,155));
-    			}
-   
-    			else{
-    				sprites[buttons[i].code].setColor(sf::Color(255,255,255));
-    			}
     		}
+   
+    		else{
+    			sprites[buttons[i].code].setColor(sf::Color(255,255,255));
+    		}
+    	}
     		
-    
         while (window.pollEvent(event)) { 
             if (event.type == sf::Event::Closed) {
                 window.close();
