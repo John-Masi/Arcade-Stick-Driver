@@ -18,6 +18,30 @@ struct Sprite {
 	sf::Sprite sprite;
 };
 
+void stick_logic(JoyStick* js_1,JoyStick* js_2 ,std::unordered_map<int, sf::Sprite>& j_sprite) {
+	if(js_1[0].is_pushed == 1 ){
+    	j_sprite[17].setColor(sf::Color(55,155,155));
+    }
+	else if(js_1[1].is_pushed == -1) {
+    	j_sprite[16].setColor(sf::Color(55,155,155));
+    }
+    else{
+    	j_sprite[16].setColor(sf::Color(255,255,255));
+    	j_sprite[17].setColor(sf::Color(255,255,255));
+    }
+
+    if(js_2[0].is_pushed == 1){
+    	j_sprite[19].setColor(sf::Color(55,155,155));
+    }
+    else if(js_2[1].is_pushed == -1) {
+    	j_sprite[18].setColor(sf::Color(55,155,155));
+    }
+    else{
+    	j_sprite[18].setColor(sf::Color(255,255,255));
+    	j_sprite[19].setColor(sf::Color(255,255,255));
+    }
+};
+
 int main() {
 
 	Button buttons[8] = {{false,304},{false,307},{false,309},{false,308},
@@ -108,30 +132,7 @@ int main() {
     	}
 
     	
-    		if(x_sticks[0].is_pushed == 1 ){
-    				js_sprites[17].setColor(sf::Color(55,155,155));
-    		}
-    		else if(x_sticks[1].is_pushed == -1) {
-    				js_sprites[16].setColor(sf::Color(55,155,155));
-    		}
-    		else{
-    			js_sprites[16].setColor(sf::Color(255,255,255));
-    			js_sprites[17].setColor(sf::Color(255,255,255));
-    		}
-
-    	
-
-    
-    		if(y_sticks[0].is_pushed == 1){
-    				js_sprites[19].setColor(sf::Color(55,155,155));
-    		}
-    		else if(y_sticks[1].is_pushed == -1) {
-    				js_sprites[18].setColor(sf::Color(55,155,155));
-    		}
-    		else{
-    			js_sprites[18].setColor(sf::Color(255,255,255));
-    			js_sprites[19].setColor(sf::Color(255,255,255));
-    		}
+    		stick_logic(x_sticks,y_sticks,js_sprites);
 
     	
     		
