@@ -25,7 +25,7 @@ typedef struct {
 
 typedef struct {
 	int code; 
-	bool is_pushed; 
+	int is_pushed; 
 } JoyStick;
 
 int FindDevice() {
@@ -57,7 +57,7 @@ int FindDevice() {
 
 }
 
-void run(Button* buttons,JoyStick joystick) {
+void run(Button* buttons,JoyStick* joystick,JoyStick* joystick_2) {
 	int num = FindDevice();
 
 	struct input_event event; 
@@ -86,8 +86,14 @@ void run(Button* buttons,JoyStick joystick) {
 			else if(event.type == EV_ABS){
 				printf("%d\n",event.value);
 
-				joystick.is_pushed = event.code;
-				joystick.code = event.value;
+				for(int i = 0; i < 2; i++) {
+					if(event.value == 17) {
+						joystick_2[i].is_pushed = event.value;
+					}
+					if(event.value == 16) {
+						joystick[i].is_pushed = event.value;
+					}
+				}
 			}
 
 		}
