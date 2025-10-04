@@ -18,6 +18,18 @@ struct Sprite {
 	sf::Sprite sprite;
 };
 
+void button_logic(Button* btns,std::unordered_map<int, sf::Sprite>& b_sprite) {
+	for(int i = 0; i < 8; i++) {
+    	if(btns[i].is_pressed){
+    		b_sprite[btns[i].code].setColor(sf::Color(55,155,155));
+    	}
+   
+    	else{
+    		b_sprite[btns[i].code].setColor(sf::Color(255,255,255));
+    	}
+    }
+}
+
 void stick_logic(JoyStick* js_1,JoyStick* js_2 ,std::unordered_map<int, sf::Sprite>& j_sprite) {
 	if(js_1[0].is_pushed == 1 ){
     	j_sprite[17].setColor(sf::Color(55,155,155));
@@ -105,10 +117,10 @@ int main() {
 		sprite.setScale(1.0f,1.0f);
 	}
 
-	js_sprites[17].move(20,300);
-	js_sprites[18].move(20,100);
-	js_sprites[16].move(20,200);
-	js_sprites[19].move(20,400);
+	js_sprites[17].move(35,200);
+	js_sprites[18].move(-55,150);
+	js_sprites[16].move(-125,200);
+	js_sprites[19].move(-55,300);
 
 	sprites[304].move(200,200);
 	sprites[307].move(300,200);
@@ -121,20 +133,9 @@ int main() {
 
     sf::Event event;
     while (window.isOpen()) {
-    	for(int i = 0; i < 8; i++) {
-    		if(buttons[i].is_pressed){
-    			sprites[buttons[i].code].setColor(sf::Color(55,155,155));
-    		}
-   
-    		else{
-    			sprites[buttons[i].code].setColor(sf::Color(255,255,255));
-    		}
-    	}
-
     	
-    		stick_logic(x_sticks,y_sticks,js_sprites);
-
-    	
+    	button_logic(buttons,sprites);
+    	stick_logic(x_sticks,y_sticks,js_sprites);
     		
         while (window.pollEvent(event)) { 
             if (event.type == sf::Event::Closed) {
