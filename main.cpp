@@ -2,6 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <thread>
+#include <string>
 #include <unordered_map>
 
 // Compile command 
@@ -22,8 +23,8 @@ int main() {
 	Button buttons[8] = {{false,304},{false,307},{false,309},{false,308},
 						{false,305},{false,306},{false,311},{false,310},};
 
-	JoyStick x_sticks[2] = {{17,0},{16,0}};
-	JoyStick y_sticks[2] = {{18,0},{19,0}};
+	JoyStick x_sticks[2] = {{16,0},{17,0}};
+	JoyStick y_sticks[2] = {{16,0},{17,0}};
 
 	std::thread t(run,buttons,x_sticks,y_sticks);
 
@@ -51,10 +52,10 @@ int main() {
 
 
 	std::unordered_map<int, sf::Sprite> js_sprites = {
-		{16,sf::Sprite(up_t)},
-		{17,sf::Sprite(down_t)},
-		{18,sf::Sprite(left_t)},
-		{19,sf::Sprite(right_t)},
+		{16,sf::Sprite(left_t)},
+		{17,sf::Sprite(right_t)},
+		{18,sf::Sprite(up_t)},
+		{19,sf::Sprite(down_t)},
 	};
 
 	std::unordered_map<int , sf::Sprite> sprites = {
@@ -96,7 +97,6 @@ int main() {
 
     sf::Event event;
     while (window.isOpen()) {
-
     	for(int i = 0; i < 8; i++) {
     		if(buttons[i].is_pressed){
     			sprites[buttons[i].code].setColor(sf::Color(55,155,155));

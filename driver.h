@@ -84,22 +84,35 @@ void run(Button* buttons,JoyStick* joystick,JoyStick* joystick_2) {
 			
 			}
 			else if(event.type == EV_ABS){
-				printf("%d\n",event.value);
+					printf("%d\n",event.code);
 
-				for(int i = 0; i < 2; i++) {
-					if(event.value == 17) {
-						joystick_2[i].is_pushed = event.value;
+					if(event.code == 16 && event.value == 1) {
+						joystick[0].is_pushed = event.value;
 					}
-					if(event.value == 16) {
-						joystick[i].is_pushed = event.value;
+					else if(event.code == 16 && event.value == -1){
+						joystick[1].is_pushed = event.value;
 					}
+					else{
+						joystick[0].is_pushed = 0;
+						joystick[1].is_pushed = 0;
+					}
+
+					if(event.code == 17 && event.value == 1) {
+						joystick_2[0].is_pushed = event.value;
+					}
+					else if(event.code == 17 && event.value == -1) {
+						joystick_2[1].is_pushed = event.value;
+					}
+					else{
+						joystick_2[0].is_pushed = 0;
+						joystick_2[1].is_pushed = 0;
+					}
+
 				}
 			}
 
 		}
+		close(fd);
 	}
-
-	close(fd);
-}
 
 #endif
